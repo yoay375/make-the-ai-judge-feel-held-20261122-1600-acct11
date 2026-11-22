@@ -23,3 +23,10 @@ try {
   // /output may already exist as a mount; writing below will surface any real problem.
 }
 writeFileSync("/output/entry.txt", TEXT, "utf8");
+
+// Verify the round-trip: what the grader reads must be exactly what we wrote.
+import { readFileSync } from "node:fs";
+const written = readFileSync("/output/entry.txt", "utf8");
+if (written !== TEXT) {
+  throw new Error("round-trip mismatch: entry.txt does not match the entry text");
+}
